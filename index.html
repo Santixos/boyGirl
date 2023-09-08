@@ -93,22 +93,22 @@
          */
         
          // calcolare eta'
-        function calcolaEta(dataNascita) { // e' una funzione che deveavere come parametro in ingresso valore di tipo stringa
-            const dataNascitaObj = new Date(dataNascita);
-            const dataCorrente = new Date();
+        function calculateAge(dateOfBirth) { // e' una funzione che deveavere come parametro in ingresso valore di tipo stringa
+            const dateOfBirthObj = new Date(dateOfBirth);
+            const currentDate = new Date();
 
 
-            let anni = dataCorrente.getFullYear() - dataNascitaObj.getFullYear();
-            const mesi = dataCorrente.getMonth() - dataNascitaObj.getMonth();
+            let years = currentDate.getFullYear() - dateOfBirthObj.getFullYear();
+            const months = currentDate.getMonth() - dateOfBirthObj.getMonth();
 
 
             // Verifica se il compleanno del mese corrente è già avvenuto o no
-            if (mesi < 0 || (mesi === 0 && dataCorrente.getDate() < dataNascitaObj.getDate())) {
-                anni--;
+            if (months < 0 || (months === 0 && currentDate.getDate() < dateOfBirthObj.getDate())) {
+                years--;
             }
 
 
-            return anni;
+            return years;
         }
 
         function validName(input) {
@@ -119,23 +119,23 @@
         }
 
 
-        function verificaDataNascitaValida(birthDateString) { // e' una funzione che deveavere come parametro in ingresso valore di tipo string
+        function validateDateOfBirth(birthDateString) { // e' una funzione che deveavere come parametro in ingresso valore di tipo string
          
-        if (birthDateString === "" ) {
-            alert("E' necessario inserire una data di nascita!");
-            return false;
-        }
+            if (birthDateString === "" ) {
+                alert("E' necessario inserire una data di nascita!");
+                return false;
+            }
        
             // Ottieni la data odierna
-            const dataOdierna = new Date();
+            const currentDate = new Date();
 
 
-            const dataCompleanno = new Date(birthDateString);
+            const dateOfBirth = new Date(birthDateString);
 
 
             // Confronta le date (ignorando l'ora)
-            dataOdierna.setHours(0, 0, 0, 0); // Imposta l'ora a mezzanotte
-            if (dataCompleanno > dataOdierna) {
+            currentDate.setHours(0, 0, 0, 0); // Imposta l'ora a mezzanotte
+            if (dateOfBirth > currentDate) {
                 alert("la data di nascita non puo' essere successiva alla data odierna!");
                 return false;
             }
@@ -145,24 +145,17 @@
         }
 
 
-
-
-
-
-       
-
-
         document.getElementsByTagName("button")[0].onclick = function () {
 
 
             const dateOfBirth = document.getElementById("birthDateInput").value; // se non metto .value considero l'elemento!!! distinguere l'elemento dai suoi contenuti (come ad esempio il valore)
 
 
-            if (verificaDataNascitaValida(dateOfBirth)) {
+            if (validateDateOfBirth(dateOfBirth)) {
                 const name = document.getElementById("nameInput").value;
                 const gender = document.getElementById("Sex").value;
                 if (validName(name)) {
-                    addRow(name, calcolaEta(dateOfBirth), gender);
+                    addRow(name, calculateAge(dateOfBirth), gender);
                 } else {
                     alert("E' necessario inserire un nome nel formato valido! (iniziali maiuscole)");
                 }
@@ -173,8 +166,8 @@
 
 
         function deleteRow(object) {
-           
-            object.parentNode.remove();        }        
+           object.parentNode.remove();       
+        }        
            
         function addRow(name, age, sex) {
             const row = document.createElement("item");
