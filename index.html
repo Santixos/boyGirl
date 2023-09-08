@@ -144,17 +144,16 @@
             const dateOfBirth = document.getElementById("birthDateInput").value; // se non metto .value considero l'elemento!!! distinguere l'elemento dai suoi contenuti (come ad esempio il valore)
 
 
-            if (validateDateOfBirth(dateOfBirth)) {
-                const name = document.getElementById("nameInput").value;
-                const gender = document.getElementById("Sex").value;
-                if (validName(name)) {
-                    addRow(name, calculateAge(dateOfBirth), gender);
-                } else {
-                    alert("E' necessario inserire un nome nel formato valido! (iniziali maiuscole)");
-                }
+            if (!validateDateOfBirth(dateOfBirth)) {
+                return;
             }
-
-
+            const name = document.getElementById("nameInput").value;
+            const gender = document.getElementById("Sex").value;
+            if (!validName(name)) {
+                alert("E' necessario inserire un nome nel formato valido! (iniziali maiuscole)");
+                return
+            } 
+            addRow(name, calculateAge(dateOfBirth), gender);
         }
 
 
