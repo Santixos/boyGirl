@@ -97,7 +97,6 @@
             const dateOfBirthObj = new Date(dateOfBirth);
             const currentDate = new Date();
 
-
             let years = currentDate.getFullYear() - dateOfBirthObj.getFullYear();
             const months = currentDate.getMonth() - dateOfBirthObj.getMonth();
 
@@ -106,7 +105,6 @@
             if (months < 0 || (months === 0 && currentDate.getDate() < dateOfBirthObj.getDate())) {
                 years--;
             }
-
 
             return years;
         }
@@ -120,18 +118,14 @@
 
 
         function validateDateOfBirth(birthDateString) { // e' una funzione che deveavere come parametro in ingresso valore di tipo string
-         
             if (birthDateString === "" ) {
                 alert("E' necessario inserire una data di nascita!");
                 return false;
             }
-       
+      
             // Ottieni la data odierna
             const currentDate = new Date();
-
-
             const dateOfBirth = new Date(birthDateString);
-
 
             // Confronta le date (ignorando l'ora)
             currentDate.setHours(0, 0, 0, 0); // Imposta l'ora a mezzanotte
@@ -139,7 +133,6 @@
                 alert("la data di nascita non puo' essere successiva alla data odierna!");
                 return false;
             }
-
 
             return true; // Data di nascita valida
         }
@@ -173,12 +166,7 @@
             const row = document.createElement("item");
             row.classList.add("item");
             document.getElementById("kids-list").append(row);
-            let gender;
-            if (sex === "m") {
-                gender = "male";
-            } else {
-                gender = "female";
-            }
+            const gender =  sex === "m" ? "male" : "female";
             row.classList.add(gender);
             const nameInput = document.createElement("div");
             nameInput.classList.add("name");
