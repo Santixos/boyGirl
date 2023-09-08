@@ -1,52 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
-
 <body>
-
-
-    <!--
-It's a new edition of MyLittle team exercise that uses Objects
-TODO:
-1. Button "add" must add a new row to the "My little Team" list, with chosen name and sex. Check document.createElement function documentation
-
-
-2. AT THE BEGINNING the list of children must correspond the structure that is saved in const childrenList (see lines 93-114): this constant represents an array of Objects, where every object corresponds a child and has all the necessary information of this child (name, sex, date of birth). You are going to use only name and sex in this exercise.
-
-
-So at the beginning (when opening the page) My Little Team list must consist of these 4 children
--->
     <div class="rounded-box">
         <h2>Add a kid</h2>
         <input id="nameInput" placeholder="enter name" />
+        <input id="birthDateInput" type="date" placeholder="enter name" />
         <select id="Sex">
             <option value="m">Boy</option>
             <option value="f">Girl</option>
         </select>
         <button>add</button>
     </div>
-
-
     <div class="rounded-box">
         <h2>My little Team</h2>
         <div id="kids-list">
-            <div class="item male">
-                <div class="name">Peter Pan</div>
-                <button onclick="deleteItem(this)">remove</button>
-            </div>
-            <div class="item female">
-                <div class="name">Mary Poppins</div>
-                <button onclick="deleteItem(this)">remove</button>
-            </div>
+            <item class="item male">
+                <div class="name">Sample Item</div>
+                <div class="age">99</div>
+                <button onclick="deleteRow(this)">Remove</button>
+            </item>
+            <item class="item female">
+                <div class="name">Sample Item</div>
+                <div class="age">19</div>
+                <button onclick="deleteRow(this)">Remove</button>
+            </item>
         </div>
     </div>
-
-
     <style>
         .item {
             display: flex;
@@ -56,40 +40,26 @@ So at the beginning (when opening the page) My Little Team list must consist of 
             margin: 0.25em 0;
             position: relative;
         }
-
-
         .item::before {
             position: absolute;
             left: 0.5em;
             font-weight: bold;
         }
-
-
         .male {
             background: lightblue;
         }
-
-
         .male::before {
             content: '♂️';
         }
-
-
         .female {
             background: salmon;
         }
-
-
         .female::before {
             content: '♀';
         }
-
-
         .name {
             width: 30%;
         }
-
-
         /* page styling */
         body {
             background: url(https://media.istockphoto.com/id/509175470/de/vektor/hintergrund-f%C3%BCr-kleine-jungen-handgezeichnet-kinder-zeichnungen.jpg?s=612x612&w=0&k=20&c=xRRpevgrUH70gPHo4SQHRPOrl7HFz91VeG0svxFJtu4=);
@@ -97,13 +67,9 @@ So at the beginning (when opening the page) My Little Team list must consist of 
             color: var(--our-blue);
             --our-blue: #186b89;
         }
-
-
         h2 {
             font-family: "Comics Sans";
         }
-
-
         .rounded-box {
             background: white;
             padding: 0.5em;
@@ -112,47 +78,22 @@ So at the beginning (when opening the page) My Little Team list must consist of 
             margin-bottom: 1em;
         }
     </style>
-
-
     <script>
-
-
-        const birthDateInput = document.createElement("input");
-        birthDateInput.type = "date";
-        const inputContainer = document.createElement("div");
-        document.getElementsByClassName("rounded-box")[0].append(inputContainer);
+        /*
+                1) validazione del nome e data di nascita deve essere impossibile l'inserimento senza data d nascita!
+                2) salvare e leggere la lista dallo Storage locale del browser
+                3) refactoring del codice e nomi tutti in eng
+                4) miglioramento del layout (css grid)
+                5) aggiungere immagini di bambini
+                6) ordinamento della lista per nome / età
+                7) aggiungere tipo di sport praticato dal bambino
+                8) filtraggio della lista per tipo di sport / età
+                9) salvare & leggere la data del torneo sportivo
+                10) Countdown timer per il torneo
+         */
         
-        inputContainer.append(birthDateInput);
-        inputContainer.append(document.getElementById("nameInput"));
-      
-
-       
-        document.getElementsByClassName("rounded-box")[0].append(birthDateInput);
-
-        const childrenList = [
-            {
-                name: 'Adam Sendler',
-                sex: 'm',
-                dateOfBirth: '2013-01-17'
-            },
-            {
-                name: 'Eva Braun',
-                sex: 'f',
-                dateOfBirth: '2018-08-07'
-            },
-            {
-                name: 'Rocky Balboa',
-                sex: 'm',
-                dateOfBirth: '2011-10-03'
-            },
-            {
-                name: 'Linda Evangelista',
-                sex: 'f',
-                dateOfBirth: '2019-03-08'
-            }
-        ];
-        // calcolare eta'
-        function calcolaEta(dataNascita) {
+         // calcolare eta'
+        function calcolaEta(dataNascita) { // e' una funzione che deveavere come parametro in ingresso valore di tipo stringa
             const dataNascitaObj = new Date(dataNascita);
             const dataCorrente = new Date();
 
@@ -170,98 +111,103 @@ So at the beginning (when opening the page) My Little Team list must consist of 
             return anni;
         }
 
-
-
-
-
-
-        function addRow(name, sex, age) {
-
-
-            let ageVisualized;
-            if (age) { ageVisualized = age; }
-            else { ageVisualized = "-"; }
-
-
-            /* (age) Se age equivale a true (i casi in cui (age) dà true sono tutti trane 0, null, undefined, false, "", NaN)
-            
-            
-            (!age) Se age è uguale a false ( cioè (!age) dà come risultato  true quando è uguale a uno dei seguenti casi:
-            0, null, undefined, false, "", NaN)
-            
-            
-            Altrimenti darà false*/
-
-
-
-            const newRow = document.createElement("div");
-            newRow.classList.add("item");
-            let sexClassName;
-
-            /* sostituire if con tre*/
-
-
-            if (sex === "m") {
-                sexClassName = "male";
-            } else {
-                sexClassName = "female";
-            }
-
-
-            newRow.classList.add(sexClassName);
-
-
-            document.getElementById("kids-list").append(newRow);
-
-            const nameContainer = document.createElement("div");
-            nameContainer.classList.add("name");
-            newRow.append(nameContainer);
-            nameContainer.innerText = name;
-            const ageContainer = document.createElement("div");
-            newRow.append(ageContainer);
-            ageContainer.innerText = ageVisualized;
-            const insertButton = document.createElement("button");
-            newRow.append(insertButton);
-            insertButton.innerText = "kick the kid out!";
-            insertButton.onclick = function () {
-                deleteItem(nameContainer);
-            }
-
-
+        function validName(input) {
+            // Definisci il pattern regex per "Nome Cognome"
+            const pattern = /^[A-Z][a-z]* [A-Z][a-z]*$/;
+             // Utilizza il metodo test() per verificare la corrispondenza
+            return pattern.test(input);
         }
 
 
-        document.getElementById("kids-list").innerHTML = "";
-
-
-        const vips = childrenList.length;
-        for (let i = 0; i < vips; i++) {
-
-            addRow(childrenList[i].name, childrenList[i].sex, calcolaEta(childrenList[i].dateOfBirth));
-
-
+        function verificaDataNascitaValida(birthDateString) { // e' una funzione che deveavere come parametro in ingresso valore di tipo string
+         
+        if (birthDateString === "" ) {
+            alert("E' necessario inserire una data di nascita!");
+            return false;
         }
+       
+            // Ottieni la data odierna
+            const dataOdierna = new Date();
+
+
+            const dataCompleanno = new Date(birthDateString);
+
+
+            // Confronta le date (ignorando l'ora)
+            dataOdierna.setHours(0, 0, 0, 0); // Imposta l'ora a mezzanotte
+            if (dataCompleanno > dataOdierna) {
+                alert("la data di nascita non puo' essere successiva alla data odierna!");
+                return false;
+            }
+
+
+            return true; // Data di nascita valida
+        }
+
+
+
+
+
+
+       
 
 
         document.getElementsByTagName("button")[0].onclick = function () {
 
-            addRow(
-                document.getElementById("nameInput").value, 
-                document.getElementById("Sex").value, 
-                calcolaEta(birthDateInput.value)
-            );
+
+            const dateOfBirth = document.getElementById("birthDateInput").value; // se non metto .value considero l'elemento!!! distinguere l'elemento dai suoi contenuti (come ad esempio il valore)
+
+
+            if (verificaDataNascitaValida(dateOfBirth)) {
+                const name = document.getElementById("nameInput").value;
+                const gender = document.getElementById("Sex").value;
+                if (validName(name)) {
+                    addRow(name, calcolaEta(dateOfBirth), gender);
+                } else {
+                    alert("E' necessario inserire un nome nel formato valido! (iniziali maiuscole)");
+                }
+            }
+
 
         }
-        function deleteItem(caller) {
-            console.log(caller);
-            caller.parentNode.remove();
+
+
+        function deleteRow(object) {
+           
+            object.parentNode.remove();        }        
+           
+        function addRow(name, age, sex) {
+            const row = document.createElement("item");
+            row.classList.add("item");
+            document.getElementById("kids-list").append(row);
+            let gender;
+            if (sex === "m") {
+                gender = "male";
+            } else {
+                gender = "female";
+            }
+            row.classList.add(gender);
+            const nameInput = document.createElement("div");
+            nameInput.classList.add("name");
+            row.append(nameInput);
+            nameInput.innerText = name;
+            const ageInput = document.createElement("div");
+            ageInput.classList.add("age");
+            row.append(ageInput);
+            ageInput.innerText = age;
+            const button = document.createElement("button");
+            row.append(button);
+            button.innerText = "Remove";
+            button.onclick = function () {
+                deleteRow(button);
+                console.log("weerrrt");
+            }
         }
-
-
-
-
+        // funzione che cancella la riga
+        // funzione che calcola l'eta'
     </script>
-
 </body>
-
 </html>
+
+
+
