@@ -80,9 +80,9 @@
     </style>
     <script>
         /*
-                1) validazione del nome e data di nascita deve essere impossibile l'inserimento senza data d nascita!
+                1) DONE validazione del nome e data di nascita deve essere impossibile l'inserimento senza data d nascita!
                 2) salvare e leggere la lista dallo Storage locale del browser
-                3) refactoring del codice e nomi tutti in eng
+                3) DONE refactoring del codice e nomi tutti in eng
                 4) miglioramento del layout (css grid)
                 5) aggiungere immagini di bambini
                 6) ordinamento della lista per nome / età
@@ -91,6 +91,24 @@
                 9) salvare & leggere la data del torneo sportivo
                 10) Countdown timer per il torneo
          */
+        
+        document.getElementById("kids-list").innerHTML ="";
+        let arrayChildren = JSON.parse(localStorage.getItem('boyGirlMineArray'));
+        if (arrayChildren === null){
+            arrayChildren = [];
+        }
+        const childrenList = arrayChildren; // capire qui
+        let max= 0;
+        for (let i = 0; i < childrenList.length; i++) {
+            if (childrenList[i].id > max) {
+                max = childrenList[i].id;
+            }
+        }
+
+        for(i = 0; i < childrenList.length; i++) {
+            addRow(childrenList[i].name, calculateAge(childrenList[i].birth), childrenList[i].gender);
+        }
+        let idCount = max; // come un segna libro
         
          // calcolare eta'
         function calculateAge(dateOfBirth) { // e' una funzione che deveavere come parametro in ingresso valore di tipo stringa
@@ -154,6 +172,12 @@
                 return
             } 
             addRow(name, calculateAge(dateOfBirth), gender);
+            childrenList.push({name: name, id: ++idCount, birth : dateOfBirth, gender: gender}); // e' un array, ma ho bisogno che diventi stringa perchè così sara' adatta ad essere salvata nel local storage
+            var arrayString = JSON.stringify(childrenList); // qui converto childrenlist (che e'un array) in stringa in formato json
+            localStorage.setItem('boyGirlMineArray', arrayString); // qui salvo nello storage arrayString autosave
+            
+
+ 
         }
 
 
