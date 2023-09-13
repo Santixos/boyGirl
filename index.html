@@ -103,12 +103,15 @@
             if (childrenList[i].id > max) {
                 max = childrenList[i].id;
             }
-        }
+        } // nella variabile max memorizzo il massimo id
+
+        
 
         for(i = 0; i < childrenList.length; i++) {
-            addRow(childrenList[i].name, calculateAge(childrenList[i].birth), childrenList[i].gender);
+            addRow(childrenList[i].name, calculateAge(childrenList[i].birth), childrenList[i].gender, childrenList[i].id);
+            
         }
-        let idCount = max; // come un segna libro
+        let idCount = max; // 
         
          // calcolare eta'
         function calculateAge(dateOfBirth) { // e' una funzione che deveavere come parametro in ingresso valore di tipo stringa
@@ -171,8 +174,8 @@
                 alert("E' necessario inserire un nome nel formato valido! (iniziali maiuscole)");
                 return
             } 
-            addRow(name, calculateAge(dateOfBirth), gender);
-            childrenList.push({name: name, id: ++idCount, birth : dateOfBirth, gender: gender}); // e' un array, ma ho bisogno che diventi stringa perchè così sara' adatta ad essere salvata nel local storage
+            addRow(name, calculateAge(dateOfBirth), gender, ++idCount);
+            childrenList.push({name: name, id: idCount, birth : dateOfBirth, gender: gender}); // e' un array, ma ho bisogno che diventi stringa perchè così sara' adatta ad essere salvata nel local storage
             var arrayString = JSON.stringify(childrenList); // qui converto childrenlist (che e'un array) in stringa in formato json
             localStorage.setItem('boyGirlMineArray', arrayString); // qui salvo nello storage arrayString autosave
             
@@ -185,8 +188,9 @@
            object.parentNode.remove();       
         }        
            
-        function addRow(name, age, sex) {
+        function addRow(name, age, sex, id) {
             const row = document.createElement("item");
+            row.dataset.id = id;
             row.classList.add("item");
             document.getElementById("kids-list").append(row);
             const gender =  sex === "m" ? "male" : "female";
@@ -206,6 +210,7 @@
                 deleteRow(button);
                 console.log("weerrrt");
             }
+            
         }
         // funzione che cancella la riga
         // funzione che calcola l'eta'
