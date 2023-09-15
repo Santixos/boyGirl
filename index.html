@@ -183,14 +183,21 @@
  
         }
 
+        
+        function deleteRow(button, id) {
+            console.log({id: id, messaggio: "delete row" }); 
+            button.parentNode.remove(); 
+            const index = childrenList.findIndex(function(element) {
+                return element.id === id;
+            });
+            childrenList.splice(index, 1); 
+            var arrayString = JSON.stringify(childrenList); 
+            localStorage.setItem('boyGirlMineArray', arrayString); 
 
-        function deleteRow(object) {
-           object.parentNode.remove();       
         }        
            
         function addRow(name, age, sex, id) {
             const row = document.createElement("item");
-            row.dataset.id = id;
             row.classList.add("item");
             document.getElementById("kids-list").append(row);
             const gender =  sex === "m" ? "male" : "female";
@@ -207,8 +214,8 @@
             row.append(button);
             button.innerText = "Remove";
             button.onclick = function () {
-                deleteRow(button);
-                console.log("weerrrt");
+                deleteRow(button, id);
+                
             }
             
         }
